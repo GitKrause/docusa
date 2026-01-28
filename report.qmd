@@ -1,0 +1,173 @@
+---
+title: "Estimación de la tasa de desocupación comunal mediante Small Area Estimation Bayesiano"
+subtitle: "Modelo multinomial logit"
+author:
+  - name: "Álvaro Krause"
+date: last-modified
+lang: es
+format:
+  html:
+    toc: true
+    number-sections: true
+  pdf:
+    toc: true
+    number-sections: true
+  docx:
+    clean: true
+    toc: true
+    number-sections: true
+    reference-doc: reference-doc.docx
+bibliography: references.bib
+nocite: '@*'
+---
+
+# Resumen ejecutivo {.unnumbered}
+
+Este informe presenta la metodología y los resultados de la aplicación de Small Area Estimation (SAE) para la estimación de la tasa de desocupación a nivel comunal, utilizando un modelo bayesiano multinomial con enlace logit. El enfoque permite mejorar la precisión de las estimaciones en dominios con tamaños muestrales reducidos, manteniendo coherencia con las definiciones oficiales del mercado laboral.
+
+# Introducción
+
+## Contexto y motivación
+
+La estimación directa de indicadores laborales a nivel comunal presenta limitaciones importantes debido a la alta variabilidad asociada a tamaños muestrales pequeños. La metodología SAE permite superar estas limitaciones mediante el uso de modelos estadísticos que integran información auxiliar.
+
+## Objetivos
+
+### Objetivo general
+
+Estimar la tasa de desocupación comunal mediante un modelo bayesiano de Small Area Estimation.
+
+### Objetivos específicos
+
+-   Incorporar información auxiliar a nivel comunal.
+-   Reducir la varianza de las estimaciones respecto de los estimadores directos.
+-   Garantizar coherencia interna entre categorías laborales.
+
+# Marco conceptual
+
+## Indicadores del mercado laboral
+
+Se consideran las categorías de ocupados, desocupados e inactivos, de acuerdo con las definiciones oficiales vigentes. Para cada comuna $d$, se define el vector de proporciones poblacionales:
+
+$$
+\boldsymbol{\theta}_d = (\theta_{d1}, \theta_{d2}, \theta_{d3})
+$$
+
+donde los subíndices corresponden a ocupados, desocupados e inactivos, respectivamente, y se cumple:
+
+$$
+\sum_{k=1}^3 \theta_{dk} = 1.
+$$
+
+## Small Area Estimation
+
+El enfoque SAE se basa en la especificación de un modelo probabilístico que vincula los parámetros de interés con información auxiliar disponible para todas las áreas, permitiendo estabilizar las estimaciones en dominios pequeños.
+
+# Fuentes de información
+
+## Encuesta base
+
+La estimación se basa en una encuesta de hogares con diseño muestral complejo. Para cada comuna $d$ se observa un vector de conteos:
+
+$$
+\boldsymbol{y}_d = (y_{d1}, y_{d2}, y_{d3})
+$$
+
+con tamaño muestral total $n_d = \sum_{k=1}^3 y_{dk}$.
+
+## Información auxiliar
+
+Se utilizan variables auxiliares a nivel comunal provenientes de fuentes censales y registros administrativos, recopiladas en el vector $\boldsymbol{x}_d$.
+
+# Modelo estadístico
+
+## Modelo de muestreo
+
+Condicional a las proporciones verdaderas $\boldsymbol{\theta}_d$, se asume que los conteos muestrales siguen una distribución multinomial:
+
+$$
+\boldsymbol{y}_d \mid \boldsymbol{\theta}_d \sim \text{Multinomial}(n_d, \boldsymbol{\theta}_d).
+$$ {#eq-0}
+
+## Modelo estructural
+
+Se adopta un modelo multinomial logit, tomando como categoría de referencia $k = 3$ (inactivos). Para $k = 1,2$:
+
+$$
+\log\left( \frac{\theta_{dk}}{\theta_{d3}} \right) = \boldsymbol{x}_d^\top \boldsymbol{\beta}_k + u_{dk}, \quad k = 1,2
+$$ {#eq-1}
+
+donde $\boldsymbol{\beta}_k$ es un vector de coeficientes fijos y $u_{dk}$ corresponde a un efecto aleatorio comunal.
+
+## Efectos aleatorios
+
+Los efectos aleatorios se modelan como:
+
+$$
+u_{dk} \sim \mathcal{N}(0, \sigma_k^2),
+$$ {#eq-2}
+
+asumiendo independencia entre comunas.
+
+# Inferencia bayesiana
+
+## Priori
+
+Se especifican distribuciones a priori débiles para los parámetros del modelo:
+
+$$
+\boldsymbol{\beta}_k \sim \mathcal{N}(0, \tau^2 I), \qquad \sigma_k \sim \text{Half-Cauchy}(0, A).
+$$ {#eq-3}
+
+## Estimación
+
+La inferencia se realiza mediante simulación MCMC, obteniendo muestras de la distribución posterior de los parámetros y de las proporciones comunales.
+
+# Resultados
+
+## Estimaciones comunales
+
+La tasa de desocupación comunal se define como:
+
+$$
+TD_d = \theta_{d2}.
+$$ {#eq-4}
+
+Se reportan estimaciones puntuales posteriores y intervalos de credibilidad al 95%.
+
+## Comparación con estimación directa
+
+Las estimaciones SAE se comparan con los estimadores directos en términos de precisión y estabilidad.
+
+# Conclusiones
+
+La aplicación del modelo bayesiano multinomial SAE permite obtener estimaciones comunales más precisas y coherentes de la tasa de desocupación, constituyendo una herramienta robusta para la producción estadística oficial.
+
+# Resultados Visuales
+
+A continuación, se presenta la distribución de la tasa de desocupación. Como se observa en la @fig-1, las variaciones espaciales son significativas.
+
+```{r}
+#| label: fig-1
+#| fig-cap: "Comparación SAE vs. Directa"
+#| echo: false
+#| out-width: 75%
+#| fig-align: "center"
+
+knitr::include_graphics("graficos/g1.png")
+```
+
+```{r}
+#| label: fig-2
+#| fig-cap: "Evaluación LOO-PIT Q-Q"
+#| echo: false
+#| out-width: 75%
+#| fig-align: center
+
+knitr::include_graphics("graficos/g2.png")
+```
+
+# Bibliografía {.unnumbered}
+
+::: {#refs}
+:::

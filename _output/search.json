@@ -1,0 +1,100 @@
+[
+  {
+    "objectID": "report.html",
+    "href": "report.html",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "",
+    "text": "Este informe presenta la metodología y los resultados de la aplicación de Small Area Estimation (SAE) para la estimación de la tasa de desocupación a nivel comunal, utilizando un modelo bayesiano multinomial con enlace logit. El enfoque permite mejorar la precisión de las estimaciones en dominios con tamaños muestrales reducidos, manteniendo coherencia con las definiciones oficiales del mercado laboral."
+  },
+  {
+    "objectID": "report.html#contexto-y-motivación",
+    "href": "report.html#contexto-y-motivación",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "1.1 Contexto y motivación",
+    "text": "1.1 Contexto y motivación\nLa estimación directa de indicadores laborales a nivel comunal presenta limitaciones importantes debido a la alta variabilidad asociada a tamaños muestrales pequeños. La metodología SAE permite superar estas limitaciones mediante el uso de modelos estadísticos que integran información auxiliar."
+  },
+  {
+    "objectID": "report.html#objetivos",
+    "href": "report.html#objetivos",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "1.2 Objetivos",
+    "text": "1.2 Objetivos\n\n1.2.1 Objetivo general\nEstimar la tasa de desocupación comunal mediante un modelo bayesiano de Small Area Estimation.\n\n\n1.2.2 Objetivos específicos\n\nIncorporar información auxiliar a nivel comunal.\nReducir la varianza de las estimaciones respecto de los estimadores directos.\nGarantizar coherencia interna entre categorías laborales."
+  },
+  {
+    "objectID": "report.html#indicadores-del-mercado-laboral",
+    "href": "report.html#indicadores-del-mercado-laboral",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "2.1 Indicadores del mercado laboral",
+    "text": "2.1 Indicadores del mercado laboral\nSe consideran las categorías de ocupados, desocupados e inactivos, de acuerdo con las definiciones oficiales vigentes. Para cada comuna \\(d\\), se define el vector de proporciones poblacionales:\n\\[\n\\boldsymbol{\\theta}*d = (\\theta*{d1}, \\theta_{d2}, \\theta_{d3})\n\\]\ndonde los subíndices corresponden a ocupados, desocupados e inactivos, respectivamente, y se cumple:\n\\[\n\\sum_{k=1}^3 \\theta_{dk} = 1.\n\\]"
+  },
+  {
+    "objectID": "report.html#small-area-estimation",
+    "href": "report.html#small-area-estimation",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "2.2 Small Area Estimation",
+    "text": "2.2 Small Area Estimation\nEl enfoque SAE se basa en la especificación de un modelo probabilístico que vincula los parámetros de interés con información auxiliar disponible para todas las áreas, permitiendo estabilizar las estimaciones en dominios pequeños."
+  },
+  {
+    "objectID": "report.html#encuesta-base",
+    "href": "report.html#encuesta-base",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "3.1 Encuesta base",
+    "text": "3.1 Encuesta base\nLa estimación se basa en una encuesta de hogares con diseño muestral complejo. Para cada comuna \\(d\\) se observa un vector de conteos:\n\\[\n\\boldsymbol{y}*d = (y*{d1}, y_{d2}, y_{d3})\n\\]\ncon tamaño muestral total \\(n_d = \\sum_{k=1}^3 y_{dk}\\)."
+  },
+  {
+    "objectID": "report.html#información-auxiliar",
+    "href": "report.html#información-auxiliar",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "3.2 Información auxiliar",
+    "text": "3.2 Información auxiliar\nSe utilizan variables auxiliares a nivel comunal provenientes de fuentes censales y registros administrativos, recopiladas en el vector \\(\\boldsymbol{x}_d\\)."
+  },
+  {
+    "objectID": "report.html#modelo-de-muestreo",
+    "href": "report.html#modelo-de-muestreo",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "4.1 Modelo de muestreo",
+    "text": "4.1 Modelo de muestreo\nCondicional a las proporciones verdaderas \\(\\boldsymbol{\\theta}_d\\), se asume que los conteos muestrales siguen una distribución multinomial:\n\\[\n\\boldsymbol{y}_d \\mid \\boldsymbol{\\theta}_d \\sim \\text{Multinomial}(n_d, \\boldsymbol{\\theta}_d).\n\\]"
+  },
+  {
+    "objectID": "report.html#modelo-estructural",
+    "href": "report.html#modelo-estructural",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "4.2 Modelo estructural",
+    "text": "4.2 Modelo estructural\nSe adopta un modelo multinomial logit, tomando como categoría de referencia \\(k = 3\\) (inactivos). Para \\(k = 1,2\\):\n\\[\n\\log\\left(\\frac{\\theta_{dk}}{\\theta_{d3}}\\right) = \\boldsymbol{x}_d^\\top \\boldsymbol{\\beta}*k + u*{dk},\n\\]\ndonde \\(\\boldsymbol{\\beta}*k\\) es un vector de coeficientes fijos y \\(u*{dk}\\) corresponde a un efecto aleatorio comunal."
+  },
+  {
+    "objectID": "report.html#efectos-aleatorios",
+    "href": "report.html#efectos-aleatorios",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "4.3 Efectos aleatorios",
+    "text": "4.3 Efectos aleatorios\nLos efectos aleatorios se modelan como:\n\\[\nu_{dk} \\sim \\mathcal{N}(0, \\sigma_k^2),\n\\]\nasumiendo independencia entre comunas."
+  },
+  {
+    "objectID": "report.html#priori",
+    "href": "report.html#priori",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "5.1 Priori",
+    "text": "5.1 Priori\nSe especifican distribuciones a priori débiles para los parámetros del modelo:\n\\[\n\\boldsymbol{\\beta}_k \\sim \\mathcal{N}(0, \\tau^2 I), \\qquad \\sigma_k \\sim \\text{Half-Cauchy}(0, A).\n\\]"
+  },
+  {
+    "objectID": "report.html#estimación",
+    "href": "report.html#estimación",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "5.2 Estimación",
+    "text": "5.2 Estimación\nLa inferencia se realiza mediante simulación MCMC, obteniendo muestras de la distribución posterior de los parámetros y de las proporciones comunales."
+  },
+  {
+    "objectID": "report.html#estimaciones-comunales",
+    "href": "report.html#estimaciones-comunales",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "6.1 Estimaciones comunales",
+    "text": "6.1 Estimaciones comunales\nLa tasa de desocupación comunal se define como:\n\\[\nTD_d = \\theta_{d2}.\n\\]\nSe reportan estimaciones puntuales posteriores y intervalos de credibilidad al 95%."
+  },
+  {
+    "objectID": "report.html#comparación-con-estimación-directa",
+    "href": "report.html#comparación-con-estimación-directa",
+    "title": "Estimación de la tasa de desocupación comunal mediante Small Area Estimation bayesiano",
+    "section": "6.2 Comparación con estimación directa",
+    "text": "6.2 Comparación con estimación directa\nLas estimaciones SAE se comparan con los estimadores directos en términos de precisión y estabilidad."
+  }
+]

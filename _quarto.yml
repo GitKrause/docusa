@@ -1,0 +1,17 @@
+lang: es
+
+execute:
+  echo: false
+  warning: false
+  message: false
+  freeze: auto
+
+format:
+  docx:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    reference-doc: reference-doc.docx
+
+bibliography: references.bib
+csl: apa.csl
