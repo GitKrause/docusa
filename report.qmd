@@ -2,7 +2,7 @@
 title: "Estimación de la tasa de desocupación comunal mediante Small Area Estimation Bayesiano"
 subtitle: "Modelo multinomial logit"
 author:
-  - name: "Álvaro Krause"
+  - name: "Álvaro Krause, Fernando Villanueva, Sebastián Wood"
 date: last-modified
 lang: es
 format:
