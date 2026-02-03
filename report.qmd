@@ -15,6 +15,7 @@ format:
   docx:
     clean: true
     toc: true
+    lof: true 
     number-sections: true
     reference-doc: reference-doc.docx
 bibliography: references.bib
