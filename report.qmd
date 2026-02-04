@@ -30,7 +30,9 @@ Este informe presenta la metodología y los resultados de la aplicación de Smal
 
 ## Contexto y motivación
 
-La estimación directa de indicadores laborales a nivel comunal presenta limitaciones importantes debido a la alta variabilidad asociada a tamaños muestrales pequeños. La metodología SAE permite superar estas limitaciones mediante el uso de modelos estadísticos que integran información auxiliar.
+La estimación directa de indicadores laborales a nivel comunal presenta limitaciones importantes debido a la alta variabilidad asociada a tamaños muestrales pequeños .[^1] La metodología SAE permite superar estas limitaciones mediante el uso de modelos estadísticos que integran información auxiliar. (ver @GilksRichardsonSpiegelhalter1996MCMC y @Henderson1975Biometrics)
+
+[^1]: El diseño muestral de la ENE no considera representatividad de las estimaciones a nivel comunal.
 
 ## Objetivos
 
@@ -139,6 +141,133 @@ Se reportan estimaciones puntuales posteriores y intervalos de credibilidad al 9
 ## Comparación con estimación directa
 
 Las estimaciones SAE se comparan con los estimadores directos en términos de precisión y estabilidad.
+
+## Benchmarking
+
+Esta sección describe paso a paso el procedimiento de *benchmarking* aplicado a cada iteración del modelo bayesiano de área multinomial. El objetivo es garantizar que las estimaciones modeladas sean coherentes con los totales agregados obtenidos directamente de la encuesta, preservando la consistencia interna por dominio.
+
+## Objetivo general
+
+- Ajustar probabilidades multinomiales predichas por un modelo bayesiano
+  para que sean **coherentes con los totales directos** observados en la encuesta.
+
+- Mantener coherencia entre:
+  - Totales de Ocupados, Desocupados e Inactivos por dominio (DAM).
+  - Tamaños poblacionales por dominio.
+
+- Obtener, a partir de las cadenas calibradas:
+  - Medias posteriores.
+  - Desviaciones estándar.
+  - Coeficientes de variación (CVE).
+  - Intervalos creíbles.
+
+---
+
+## Notación básica
+
+- Índices:
+  - $k = 1,\dots,K$: unidades de post-estrato o dominios finos (ej. municipios).
+  
+  - $d = 1,\dots,D$: dominios agregados (DAM).
+  
+  - $l = 1,\dots,L$: iteraciones de la cadena MCMC.
+  
+  - $c \in \{O, D, I\}$: Ocupado, Desocupado, Inactivo.
+
+- Cantidades:
+
+  - $N_k$: población total del post-estrato $k$.
+  
+  - $p_{k,c}^{(l)}$: probabilidad predicha para categoría $c$ en iteración $l$.
+  
+  - $Y_{k,c}^{(l)} = N_k\,p_{k,c}^{(l)}$: “cuasi-total” basado en el modelo.
+
+
+## Totales directos (objetivos de calibración)
+
+A partir de la encuesta se tienen, por dominio $d$:
+
+- Totales directos por categoría:
+
+  $$
+  T_{d,O}^{DIR}, \quad T_{d,D}^{DIR}, \quad T_{d,I}^{DIR}
+  $$
+
+- Tamaño poblacional directo:
+
+  $$
+  N_d^{DIR}
+  $$
+
+Estos valores definen las **restricciones de benchmarking** que deben cumplir las
+cadenas ajustadas.
+
+
+
+-   Método:
+
+    -   `calib(method = "logit")` del paquete `sampling`.
+
+El objetivo es asegurar que los totales ajustados coincidan **exactamente** con los totales directos provenientes de la encuesta.
+
+## Objetivo del Benchmarking
+
+Queremos corregir las probabilidades modelo-basadas:
+
+$$
+y_{k} = (p_{k,O},\ p_{k,I},\ p_{k,D})
+$$
+
+para que al multiplicarlas por el tamaño poblacional $N_k$:
+
+$$
+N_k , y_k
+$$
+
+los resultados se ajusten exactamente a los totales directos:
+
+$$
+T^{dir}_c = \sum_k N_k  y_{k,c}
+\qquad c \in \{Ocupado, Inactivo, Desocupado\}.
+$$
+
+La calibración se realiza **marginalmente** por categoría. \# Conclusiones
+
+-   La calibración logit es estable y garantiza positividad.
+-   El benchmarking multinomial se realiza de forma marginal.
+-   La tercera categoría se obtiene por restricción.
+-   El procedimiento es compatible con áreas pequeñas y modelos MCMC.
+
+## Tasas de ocupación, desocupación y participación
+
+En esta sección se muestra cómo realizar **benchmarking** para tres tasas laborales fundamentales:
+
+-   **TD** – Tasa de Desocupación
+-   **TO** – Tasa de Ocupación
+-   **TP** – Tasa de Participación
+
+El procedimiento se implementa mediante **calibración logit (`calib()`)**, ajustando simultáneamente numeradores y denominadores para cumplir los totales directos de la encuesta.
+
+## Fórmulas de interés
+
+$$
+TD = \frac{D}{O + D}
+$$
+
+$$
+TO = \frac{O}{O + D + I}
+$$
+
+$$
+TP = \frac{O + D}{O + D + I}
+$$
+
+El objetivo del benchmarking es garantizar que los totales ajustados coincidan **exactamente** con:
+
+-   total de ocupados directos
+-   total de inactivos directos
+-   total de desocupados directos
+-   total poblacional directo
 
 # Conclusiones
 
